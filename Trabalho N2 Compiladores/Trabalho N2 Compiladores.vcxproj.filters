@@ -23,5 +23,11 @@
     <Text Include="fonte.txt">
       <Filter>Arquivos de Recurso</Filter>
     </Text>
+    <Text Include="saida.txt">
+      <Filter>Arquivos de Recurso</Filter>
+    </Text>
+    <Text Include="tabelaSimbolos.txt">
+      <Filter>Arquivos de Recurso</Filter>
+    </Text>
   </ItemGroup>
 </Project>

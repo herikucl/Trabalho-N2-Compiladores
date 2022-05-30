@@ -1,2 +1,8 @@
-a/*a*/
-das
+int a = 5;
+int b = 12;
+if(a!=b){
+a=b;
+}else{
+int c = 45;
+a=c/b;
+}

@@ -1,8 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <list>
+#include <string>
 
 using namespace std;
-const string palavrasReservadas[] = { "break","char","const","continue","default","do","double","else","float","for","if","int","long","return","void","while" };
 
 bool VerificarLetra(char c) {
     if (((c >= 65) && (c <= 90)) || ((c >= 97) && (c <= 122))) {
@@ -21,9 +22,13 @@ bool VerificarNumero(char c) {
     }
 }
 void ImprimirToken(string tipo,string token) {
-    cout << "[" << tipo << "," << token << "];";
+    ofstream escrita;
+    escrita.open("saida.txt", ios::app);
+    escrita << "[" << tipo << "," << token << "];";
+    escrita.close();
 }
 bool VerificarPalavraReservada(string t) {
+    const string palavrasReservadas[] = { "break","char","const","continue","default","do","double","else","float","for","if","int","long","return","void","while" };
     for (int i = 0; i < 16; i++)
     {
         if (t==palavrasReservadas[i])
@@ -35,7 +40,7 @@ bool VerificarPalavraReservada(string t) {
     return false;
 }
 bool VerificarOperador(char c) {
-    char op[] = { '+','-','*', '/','=','&','!','|','>','<'};
+    const char op[] = { '+','-','*', '/','=','&','!','|','>','<'};
     for (int i = 0; i < 10; i++)
     {
         if (c == op[i])
@@ -47,7 +52,7 @@ bool VerificarOperador(char c) {
     return false;
 }
 bool VerificarOperadorRelacional(string r) {
-    string rel[] = { "==","+=","-=","!=",">=","<=","++","--","||","&&"};
+    const string rel[] = { "==","+=","-=","!=",">=","<=","++","--","||","&&"};
     for (int i = 0; i < 10; i++)
     {
         if (r == rel[i])
@@ -59,7 +64,7 @@ bool VerificarOperadorRelacional(string r) {
     return false;
 }
 bool VerificarOutrosCaracteres(char c) {
-    char id[] = {'(',')','{','}',';',','};
+    const char id[] = {'(',')','{','}',';',','};
     for (int i = 0; i < 6; i++)
     {
         if (c == id[i])
@@ -70,24 +75,45 @@ bool VerificarOutrosCaracteres(char c) {
     }
     return false;
 }
+int numeroLista(string ab, list <string> &aa) {
+    int c = 0;
+    bool possui=false;
+    list <string> ::iterator it;
+    for (it = aa.begin(); it != aa.end(); ++it) {
 
+        if (*it == ab) {
+            possui = true;
+            break;
+        }
+        else {
+            possui = false;
+        }
+        c++;
+    }
+    if (possui != true) {
+        aa.push_back(ab);
+    }
+    return c;
+}
 
 
 
 int main() {
     ifstream leitura;
-    ofstream escrita;
     char aux=' ';
     int estado = 1;
     string token;
-    int c = 0;
-    int max = 1;
     token = "";
     bool auth=false;
+    list <string> identificadores;
+    ofstream auxEscrita;           
+    auxEscrita.open("saida.txt", ios::out);    //limpando o arquivo de saida antes de começar a mandar os tokens
+    auxEscrita.close();
+
     leitura.open("fonte.txt", ios::in);
     while (!leitura.eof()) {
         
-        if ((aux >= 0) && (aux <= 31)) { // Caso o caractere lido seja algum 
+        if ((aux >= 0) && (aux <= 31)) { // Caso o caractere lido seja algum espaço ou quebra de linha
             estado = 1;
             token = "";
             auth = true;
@@ -142,8 +168,9 @@ int main() {
                 if (VerificarPalavraReservada(token)){ // Verificação se é uma palavra reservada
                     ImprimirToken(token, "");          // Imprime a palavra reservada
                 }
-                else {                                 // Não é uma palavra reservada então é um identificador  
-                    ImprimirToken("id", token);
+                else {                                 // Não é uma palavra reservada então é um identificador 
+ 
+                    ImprimirToken("id", to_string(numeroLista(token, identificadores)));
                 }
                 token = "";
                 estado = 1;
@@ -246,4 +273,16 @@ int main() {
         }
         leitura.close();
 
+        list <string> ::iterator it;
+        auxEscrita.open("tabelaSimbolos.txt", ios::out);
+        int c = 0;
+        auxEscrita <<" ID  | NOME" <<endl;
+        for (it = identificadores.begin(); it !=identificadores.end(); ++it)
+        {
+                
+            auxEscrita<<" "<<c<<" | "<<*it<<endl;
+            c++;
+        }
+        auxEscrita.close();
+        
     }

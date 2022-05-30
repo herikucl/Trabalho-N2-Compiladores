@@ -143,6 +143,8 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fonte.txt" />
+    <Text Include="saida.txt" />
+    <Text Include="tabelaSimbolos.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
