@@ -13,4 +13,3 @@ int main(){
 		cout<<"Este é o numero 2";
 	}
 }
-

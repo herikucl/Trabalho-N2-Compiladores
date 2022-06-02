@@ -29,5 +29,13 @@
     <Text Include="tabelaSimbolos.txt">
       <Filter>Arquivos de Recurso</Filter>
     </Text>
+    <Text Include="temp.txt">
+      <Filter>Arquivos de Recurso</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="teste.h">
+      <Filter>Arquivos de Recurso</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

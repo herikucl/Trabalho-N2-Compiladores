@@ -100,16 +100,153 @@ int numeroLista(string ab, list <string> &aa) {
 
 int main() {
     ifstream leitura;
+    fstream escrita;
     char aux=' ';
     int estado = 1;
+    int linha = 1;
     string token;
+    string textoBib;
     token = "";
     bool auth=false;
     list <string> identificadores;
-    ofstream auxEscrita;           
-    auxEscrita.open("saida.txt", ios::out);    //limpando o arquivo de saida antes de começar a mandar os tokens
-    auxEscrita.close();
+    bool erro, verificador;
+    erro = verificador = true;
+    list <int> LinhaInclude;
+    list <string> Includes;
+    list <string> ::iterator itString;
+    list <int> ::iterator itInt;
 
+    //Pre compilador
+    leitura.open("fonte.txt", ios::in);
+    while (!leitura.eof())  // Vai identificar os includes e salvar na lista o nome e em qual linha ele se encontra
+    {
+        if (!erro) {
+            Includes.push_back(token);
+            LinhaInclude.push_back(linha);
+        }
+        token = "";
+        verificador = true;
+        erro = false;
+        while (!leitura.eof()) {
+            leitura.get(aux);
+
+            if (aux == '#') {
+                estado = 1;
+                break;
+            }
+            else if (aux == '\n') {
+                linha++;
+            }
+        }
+        if (!leitura.eof()) {
+            while (verificador) {
+                if (!erro) {
+                    leitura.get(aux);
+                }
+                switch (estado) {
+                case 0:
+                    cout << "erro";
+                    verificador = false;
+                    break;
+
+                case 1:
+                    if (aux != ' ') {
+                        char in[] = { 'i','n','c','l','u','d','e' };
+                        for (int i = 0; i < 7; i++) {
+                            if (aux != in[i]) {
+                                erro = true;
+                                break;
+                            }
+                            leitura.get(aux);
+                        }
+                    }
+                    if (erro) {
+                        estado = 0;
+                    }
+                    else {
+                        estado = 2;
+                    }
+                    break;
+
+                case 2:
+                    if (aux != ' ') {
+                        if ((aux == '<') || (aux == '"')) {
+                            estado = 3;
+                        }
+                        else {
+                            estado = 0;
+                        }
+                    }
+                    break;
+
+                case 3:
+                    if ((aux == '>') || (aux == '"')) {
+                        verificador = false;
+                    }
+                    else {
+                        token += aux;
+                    }
+                    break;
+                }
+            }
+        }
+    }
+    leitura.close();
+    for (itString = Includes.begin(); itString != Includes.end(); ++itString)
+    {
+        textoBib = "";
+        leitura.open(*itString, ios::in);
+        leitura.get(aux);
+        while (!leitura.eof()) {
+            textoBib += aux;
+            leitura.get(aux);
+        }
+        *itString = textoBib;
+        leitura.close();
+    }
+    itInt = LinhaInclude.begin();
+    itString = Includes.begin();
+    leitura.open("fonte.txt", ios::in);
+    escrita.open("temp.txt", ios::out);
+    linha = 1;
+    while (!leitura.eof()) {
+        getline(leitura, token);
+        if (linha != *itInt) {
+            escrita << token << endl;
+        }
+        else {
+            escrita << *itString << endl;
+            if (itString != Includes.end()) {
+                ++itInt;
+                ++itString;
+            }
+            if (itString == Includes.end()) {
+                --itInt;
+                --itString;
+            }
+
+        }
+        linha++;
+    }
+    leitura.close();
+    escrita.close();
+
+    leitura.open("temp.txt", ios::in);
+    escrita.open("fonte.txt", ios::out);
+    while (!leitura.eof())
+    {
+        getline(leitura, token);
+        escrita << token << endl;
+    }
+    leitura.close();
+    escrita.close();
+    aux = ' ';
+
+    //Final do pre compilador
+
+    escrita.open("saida.txt", ios::out);    //limpando o arquivo de saida antes de começar a mandar os tokens
+    escrita.close();
+    estado = 1;
     leitura.open("fonte.txt", ios::in);
     while (!leitura.eof()) {
         
@@ -274,15 +411,19 @@ int main() {
         leitura.close();
 
         list <string> ::iterator it;
-        auxEscrita.open("tabelaSimbolos.txt", ios::out);
+        escrita.open("tabelaSimbolos.txt", ios::out);
         int c = 0;
-        auxEscrita <<" ID  | NOME" <<endl;
+        escrita <<" ID  |  NOME" <<endl;
         for (it = identificadores.begin(); it !=identificadores.end(); ++it)
         {
-                
-            auxEscrita<<" "<<c<<" | "<<*it<<endl;
+            if ((c >= 0) && (c <= 9)){                              //Formatação dos espaços para que a tabela fique alinhada
+                escrita << " " << c << "   | " << *it << endl;
+            }else if ((c >= 10) && (c <= 99)) {
+                escrita << " " << c << "  | " << *it << endl;
+            }else {
+                escrita << " " << c << " | " << *it << endl;
+            }
             c++;
         }
-        auxEscrita.close();
-        
+        escrita.close();  
     }
