@@ -238,7 +238,12 @@ int main() {
                 escrita << token << endl;
             }
             else if (linha==*itInt2) {//Faz nada apenas para apagar a linha do include da biblioteca já registrada
-                ++itInt2;   
+                if (itInt2 != LinhaIncludeRepetidos.end()) {
+                    ++itInt2;
+                }
+                if (itInt2 == LinhaIncludeRepetidos.end()) {
+                    --itInt2;
+                }
             }
             else {
                 escrita << *itString << endl;
