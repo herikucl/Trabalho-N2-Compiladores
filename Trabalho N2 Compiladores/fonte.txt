@@ -1,8 +1,7 @@
-void Testando() {
-	int a = 10;
-	int b = 2;
-	int c;
-	c = a / b;
+void TestandoPelaSegundaVez() {
+	int a2;
+	int b2;
+	int c = a2 / b2;
 }
 
 int main(){
@@ -16,8 +15,3 @@ int main(){
 	}
 }
 
-void TestandoPelaSegundaVez() {
-	int a2;
-	int b2;
-	int c = a2 / b2;
-}

@@ -1,4 +1,4 @@
-#include <teste.h>
+#include <teste2.h>
 
 int main(){
 	int v;
@@ -11,4 +11,12 @@ int main(){
 	}
 }
 
+#include "teste2.h"
+#include "teste2.h"
+#include "teste2.h"
+#include "teste2.h"
+#include "teste2.h"
+#include "teste2.h"
+#include "teste2.h"
+#include "teste2.h"
 #include "teste2.h"

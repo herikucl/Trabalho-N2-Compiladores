@@ -112,17 +112,37 @@ int main() {
     bool erro, verificador;
     erro = verificador = true;
     list <int> LinhaInclude;
+    list <int> LinhaIncludeRepetidos;
     list <string> Includes;
+    list <string> TextoIncludes;
     list <string> ::iterator itString;
     list <int> ::iterator itInt;
+    list <int> ::iterator itInt2;
 
     //Pre compilador
     leitura.open("fonteMaster.txt", ios::in);
     while (!leitura.eof())  // Vai identificar os includes e salvar na lista o nome e em qual linha ele se encontra
     {
         if (!erro) {
-            Includes.push_back(token);
-            LinhaInclude.push_back(linha);
+
+            for (itString = Includes.begin(); itString != Includes.end(); ++itString)
+            {
+                if (token == *itString) {
+                    verificador = true;
+                    break;
+                }
+                else {
+                    verificador = false;
+                }
+            }
+            if (!verificador) {
+                Includes.push_back(token);
+                LinhaInclude.push_back(linha);
+            }
+            else {
+                LinhaIncludeRepetidos.push_back(linha);
+            }
+
         }
         token = "";
         verificador = true;
@@ -193,6 +213,7 @@ int main() {
     }
     leitura.close();
     if (!Includes.empty()) {
+        //itTString = TextoIncludes.begin();
         for (itString = Includes.begin(); itString != Includes.end(); ++itString)
         {
             textoBib = "";
@@ -202,26 +223,30 @@ int main() {
                 textoBib += aux;
                 leitura.get(aux);
             }
-            *itString = textoBib;
+            TextoIncludes.push_back(textoBib);
             leitura.close();
         }
         itInt = LinhaInclude.begin();
-        itString = Includes.begin();
+        itInt2 = LinhaIncludeRepetidos.begin();
+        itString = TextoIncludes.begin();
         leitura.open("fonteMaster.txt", ios::in);
         escrita.open("fonte.txt", ios::out);
         linha = 1;
         while (!leitura.eof()) {
             getline(leitura, token);
-            if (linha != *itInt) {
+            if ((linha != *itInt)&&(linha!=*itInt2)) {
                 escrita << token << endl;
+            }
+            else if (linha==*itInt2) {//Faz nada apenas para apagar a linha do include da biblioteca já registrada
+                ++itInt2;   
             }
             else {
                 escrita << *itString << endl;
-                if (itString != Includes.end()) {
+                if (itString != TextoIncludes.end()) {
                     ++itInt;
                     ++itString;
                 }
-                if (itString == Includes.end()) {
+                if (itString == TextoIncludes.end()) {
                     --itInt;
                     --itString;
                 }
