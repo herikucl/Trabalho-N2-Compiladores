@@ -6,11 +6,18 @@ void Testando() {
 }
 
 int main(){
-	int aux;
-	cin<<aux;
+	int v;
+	string n,m;
+	n="a";
+	m="";
 
-	if(aux==2){
-		cout<<"Este é o numero 2";
+	for(int i=0;i<v;i++){
+		m+=n;
 	}
 }
 
+void TestandoPelaSegundaVez() {
+	int a2;
+	int b2;
+	int c = a2 / b2;
+}

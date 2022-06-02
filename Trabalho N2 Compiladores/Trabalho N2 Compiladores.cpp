@@ -52,8 +52,8 @@ bool VerificarOperador(char c) {
     return false;
 }
 bool VerificarOperadorRelacional(string r) {
-    const string rel[] = { "==","+=","-=","!=",">=","<=","++","--","||","&&"};
-    for (int i = 0; i < 10; i++)
+    const string rel[] = { "==","+=","-=","!=","/=",">=","<=","++","--","||","&&"};
+    for (int i = 0; i < 11; i++)
     {
         if (r == rel[i])
         {
@@ -64,8 +64,8 @@ bool VerificarOperadorRelacional(string r) {
     return false;
 }
 bool VerificarOutrosCaracteres(char c) {
-    const char id[] = {'(',')','{','}',';',','};
-    for (int i = 0; i < 6; i++)
+    const char id[] = {'(',')','{','}',';',',','[',']'};
+    for (int i = 0; i < 8; i++)
     {
         if (c == id[i])
         {
@@ -101,13 +101,13 @@ int numeroLista(string ab, list <string> &aa) {
 int main() {
     ifstream leitura;
     fstream escrita;
-    char aux=' ';
+    char aux = ' ';
     int estado = 1;
     int linha = 1;
     string token;
     string textoBib;
     token = "";
-    bool auth=false;
+    bool auth = false;
     list <string> identificadores;
     bool erro, verificador;
     erro = verificador = true;
@@ -117,7 +117,7 @@ int main() {
     list <int> ::iterator itInt;
 
     //Pre compilador
-    leitura.open("fonte.txt", ios::in);
+    leitura.open("fonteMaster.txt", ios::in);
     while (!leitura.eof())  // Vai identificar os includes e salvar na lista o nome e em qual linha ele se encontra
     {
         if (!erro) {
@@ -192,64 +192,68 @@ int main() {
         }
     }
     leitura.close();
-    for (itString = Includes.begin(); itString != Includes.end(); ++itString)
-    {
-        textoBib = "";
-        leitura.open(*itString, ios::in);
-        leitura.get(aux);
-        while (!leitura.eof()) {
-            textoBib += aux;
+    if (!Includes.empty()) {
+        for (itString = Includes.begin(); itString != Includes.end(); ++itString)
+        {
+            textoBib = "";
+            leitura.open(*itString, ios::in);
             leitura.get(aux);
-        }
-        *itString = textoBib;
-        leitura.close();
-    }
-    itInt = LinhaInclude.begin();
-    itString = Includes.begin();
-    leitura.open("fonte.txt", ios::in);
-    escrita.open("temp.txt", ios::out);
-    linha = 1;
-    while (!leitura.eof()) {
-        getline(leitura, token);
-        if (linha != *itInt) {
-            escrita << token << endl;
-        }
-        else {
-            escrita << *itString << endl;
-            if (itString != Includes.end()) {
-                ++itInt;
-                ++itString;
+            while (!leitura.eof()) {
+                textoBib += aux;
+                leitura.get(aux);
             }
-            if (itString == Includes.end()) {
-                --itInt;
-                --itString;
-            }
-
+            *itString = textoBib;
+            leitura.close();
         }
-        linha++;
-    }
-    leitura.close();
-    escrita.close();
+        itInt = LinhaInclude.begin();
+        itString = Includes.begin();
+        leitura.open("fonteMaster.txt", ios::in);
+        escrita.open("fonte.txt", ios::out);
+        linha = 1;
+        while (!leitura.eof()) {
+            getline(leitura, token);
+            if (linha != *itInt) {
+                escrita << token << endl;
+            }
+            else {
+                escrita << *itString << endl;
+                if (itString != Includes.end()) {
+                    ++itInt;
+                    ++itString;
+                }
+                if (itString == Includes.end()) {
+                    --itInt;
+                    --itString;
+                }
 
-    leitura.open("temp.txt", ios::in);
-    escrita.open("fonte.txt", ios::out);
-    while (!leitura.eof())
-    {
+            }
+            linha++;
+        }
+    }
+    else {
+        leitura.open("fonteMaster.txt", ios::in);
+        escrita.open("fonte.txt", ios::out);
         getline(leitura, token);
         escrita << token << endl;
+        while (!leitura.eof())
+        {
+            getline(leitura, token);
+            escrita << token << endl;
+        }
     }
     leitura.close();
     escrita.close();
     aux = ' ';
+    token = "";
 
     //Final do pre compilador
-
+    
     escrita.open("saida.txt", ios::out);    //limpando o arquivo de saida antes de começar a mandar os tokens
     escrita.close();
     estado = 1;
     leitura.open("fonte.txt", ios::in);
     while (!leitura.eof()) {
-        
+       
         if ((aux >= 0) && (aux <= 31)) { // Caso o caractere lido seja algum espaço ou quebra de linha
             estado = 1;
             token = "";
@@ -287,7 +291,7 @@ int main() {
                 estado = 6;
                 token = token + aux;
             }
-            else if (VerificarOutrosCaracteres(aux))     // Resto dos caracteres ( ) , ; {  }
+            else if (VerificarOutrosCaracteres(aux))     // Resto dos caracteres ( ) , ; {  } [ ]
             {
                 token = token + aux;
                 ImprimirToken(token, "");
@@ -404,6 +408,10 @@ int main() {
                 estado = 1;
                 token = "";
             }
+            break;
+        
+        case 9:
+
             break;
 
             }

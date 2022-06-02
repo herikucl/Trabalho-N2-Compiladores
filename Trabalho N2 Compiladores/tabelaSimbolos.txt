@@ -4,6 +4,11 @@
  2   | b
  3   | c
  4   | main
- 5   | aux
- 6   | cin
- 7   | cout
+ 5   | v
+ 6   | string
+ 7   | n
+ 8   | m
+ 9   | i
+ 10  | TestandoPelaSegundaVez
+ 11  | a2
+ 12  | b2

@@ -32,9 +32,15 @@
     <Text Include="temp.txt">
       <Filter>Arquivos de Recurso</Filter>
     </Text>
+    <Text Include="fonteMaster.txt">
+      <Filter>Arquivos de Recurso</Filter>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="teste.h">
+      <Filter>Arquivos de Recurso</Filter>
+    </ClInclude>
+    <ClInclude Include="teste2.h">
       <Filter>Arquivos de Recurso</Filter>
     </ClInclude>
   </ItemGroup>
