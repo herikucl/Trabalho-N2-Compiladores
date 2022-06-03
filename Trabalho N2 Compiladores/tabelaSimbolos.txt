@@ -1,11 +1,4 @@
  ID  |  NOME
- 0   | TestandoPelaSegundaVez
- 1   | a2
- 2   | b2
- 3   | c
- 4   | main
- 5   | v
- 6   | string
- 7   | n
- 8   | m
- 9   | i
+ 0   |  define
+ 1   |  a
+ 2   |  b

@@ -1,18 +1,4 @@
-void TestandoPelaSegundaVez() {
-	int a2;
-	int b2;
-	int c = a2 / b2;
-}
-
-int main(){
-	int v;
-	string n,m;
-	n="a";
-	m="";
-
-	for(int i=0;i<v;i++){
-		m+=n;
-	}
-}
-
+#define a 5
+#define b 7
+#if a>b
 

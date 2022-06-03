@@ -1,21 +1,3 @@
-#include <teste2.h>
-
-int main(){
-	int v;
-	string n,m;
-	n="a";
-	m="";
-
-	for(int i=0;i<v;i++){
-		m+=n;
-	}
-}
-
-#include "teste2.h"
-#include "teste2.h"
-#include "teste2.h"
-#include "teste2.h"
-#include "teste2.h"
-#include "teste2.h"
-#include "teste2.h"
-#include "teste2.h"
+#define a 5
+#define b 7
+#if a>b
