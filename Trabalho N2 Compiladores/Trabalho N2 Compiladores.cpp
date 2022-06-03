@@ -284,7 +284,6 @@ int main() {
     erro = verificador = true;
     list <int> LinhaInclude;
     list <int> LinhaIncludeRepetidos;
-    //LinhaIncludeRepetidos.push_back(0);
     list <string> Includes;
     list <string> TextoIncludes;
     list <string> ::iterator itString;
@@ -292,7 +291,8 @@ int main() {
     list <int> ::iterator itInt2;
     string id[2];
     int valor[2];
-    bool preIf;
+    int linhasIf[3] = { 0,0,0 };
+    bool preIf=true;
     //Pre compilador
     leitura.open("fonteMaster.txt", ios::in);
     while (!leitura.eof())  // Vai identificar os includes e salvar na lista o nome e em qual linha ele se encontra
@@ -314,7 +314,7 @@ int main() {
                 LinhaInclude.push_back(linha);
             }
             else {
-                LinhaIncludeRepetidos.push_back(linha);
+                    LinhaIncludeRepetidos.push_back(linha);
             }
 
         }
@@ -332,8 +332,8 @@ int main() {
                 break;
             }
             else if (aux == '\n') {
-                linha++;
-            }
+                linha++;  
+            }  
         }
         if (!leitura.eof()) {
             while (verificador) {
@@ -395,6 +395,8 @@ int main() {
                         token = token + aux;
                     }
                     else {
+                        linhasIf[0] = linha;
+                        erro = true;
                         auth = false;
                         if (VerificarLogica(token, id, valor)) {
                             preIf = true;
@@ -403,6 +405,19 @@ int main() {
                             preIf = false;
                         }
                     }
+                    break;
+                case 5:
+                    linhasIf[1] = linha;
+                    erro = true;
+                    auth = false;
+                    break;
+
+
+                case 6:
+                    erro = true;
+                    auth = false;
+                    linhasIf[2]= linha;
+                    linha++;
                     break;
 
                 case 7:
@@ -429,6 +444,7 @@ int main() {
                         estado = 1;
                         token = "";
                         auth = false;
+                        erro = true;
                     }
                     break;
                 }
@@ -470,6 +486,48 @@ int main() {
                 if (itInt2 == LinhaIncludeRepetidos.end()) {
                     --itInt2;
                 }
+            }else if (linha == linhasIf[0]) {
+                if ((preIf) && (linhasIf[1] == 0))
+                {
+                    for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
+                    {
+                        getline(leitura, token);
+                        escrita << token << endl;
+                    }
+                    getline(leitura, token);
+                }
+                else if ((preIf) && (linhasIf[1] != 0)) {
+                    for (int i = 0; i < (linhasIf[1] - (linhasIf[0] + 1)); i++)
+                    {
+                        getline(leitura, token);
+                        escrita << token << endl;
+                    }
+                    getline(leitura, token);
+                    for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
+                    {
+                        getline(leitura, token);
+                    }
+                    getline(leitura, token);
+
+                }
+                else if ((!preIf) && (linhasIf[1] == 0)) {
+                    for (int i = 0; i < (linhasIf[2] - linhasIf[0]); i++)
+                    {
+                        getline(leitura, token);
+                    }
+                }
+                else if ((!preIf) && (linhasIf[1] != 0)) {
+                    for (int i = 0; i < (linhasIf[1] - linhasIf[0]); i++)
+                    {
+                        getline(leitura, token);
+                    }
+                    for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
+                    {
+                        getline(leitura, token);
+                        escrita << token << endl;
+                    }
+                    getline(leitura, token);
+                }
             }
             else {
                 escrita << *itString << endl;
@@ -490,11 +548,60 @@ int main() {
         leitura.open("fonteMaster.txt", ios::in);
         escrita.open("fonte.txt", ios::out);
         getline(leitura, token);
-        escrita << token << endl;
+        if (linhasIf == 0) {
+            escrita << token << endl;
+        }
+        linha = 2;
         while (!leitura.eof())
         {
             getline(leitura, token);
-            escrita << token << endl;
+            if (linha == linhasIf[0]) {
+            if ((preIf) && (linhasIf[1] == 0))
+            {
+                for (int i = 0; i < (linhasIf[2] - (linhasIf[0]+1)); i++)
+                {
+                    getline(leitura, token);
+                    escrita << token << endl;
+                }
+                getline(leitura, token);
+            }
+            else if ((preIf) && (linhasIf[1] != 0)) {
+                for (int i = 0; i < (linhasIf[1] - (linhasIf[0]+1)); i++)
+                {
+                    getline(leitura, token);
+                    escrita << token << endl;
+                }
+                getline(leitura, token);
+                for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
+                {
+                    getline(leitura, token);
+                }
+                getline(leitura, token);
+
+            }
+            else if ((!preIf) && (linhasIf[1] == 0)) {
+                for (int i = 0; i < (linhasIf[2] - linhasIf[0]); i++)
+                {
+                    getline(leitura, token);
+                }
+            }
+            else if ((!preIf) && (linhasIf[1] != 0)) {
+                for (int i = 0; i < (linhasIf[1] - linhasIf[0]); i++)
+                {
+                    getline(leitura, token);
+                }
+                for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
+                {
+                    getline(leitura, token);
+                    escrita << token << endl;
+                }
+                getline(leitura, token);
+            }
+            }
+            else {
+                escrita << token << endl;
+            }
+            linha++;
         }
     }
     leitura.close();
