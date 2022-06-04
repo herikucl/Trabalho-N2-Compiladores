@@ -366,7 +366,19 @@ int main() {
                             aux =' ';
                         }
                     }
-                    estado = VerificarComando(token);  
+                    estado = VerificarComando(token);
+                    if (VerificarComando(token)==5)
+                    {
+                        linhasIf[1] = linha;
+                    }
+                    else if (VerificarComando(token) == 6) {
+                        linhasIf[2] = linha;
+                    }
+                    if (aux == '\n') {
+                        linha++;
+                    }
+
+
                     token = "";
                     break;
 
@@ -406,8 +418,8 @@ int main() {
                         }
                     }
                     break;
+
                 case 5:
-                    linhasIf[1] = linha;
                     erro = true;
                     auth = false;
                     break;
@@ -416,8 +428,6 @@ int main() {
                 case 6:
                     erro = true;
                     auth = false;
-                    linhasIf[2]= linha;
-                    linha++;
                     break;
 
                 case 7:
@@ -445,6 +455,7 @@ int main() {
                         token = "";
                         auth = false;
                         erro = true;
+                        LinhaIncludeRepetidos.push_back(linha);
                     }
                     break;
                 }
@@ -452,6 +463,10 @@ int main() {
         }
     }
     leitura.close();
+    if (LinhaIncludeRepetidos.empty()) {
+        LinhaIncludeRepetidos.push_back(0);
+    }
+    itInt2 = LinhaIncludeRepetidos.begin();
     if (!Includes.empty()) {
         for (itString = Includes.begin(); itString != Includes.end(); ++itString)
         {
@@ -466,27 +481,13 @@ int main() {
             leitura.close();
         }
         itInt = LinhaInclude.begin();
-        if (LinhaIncludeRepetidos.empty()) {
-            LinhaIncludeRepetidos.push_back(0);
-        }
-        itInt2 = LinhaIncludeRepetidos.begin();
         itString = TextoIncludes.begin();
         leitura.open("fonteMaster.txt", ios::in);
         escrita.open("fonte.txt", ios::out);
         linha = 1;
         while (!leitura.eof()) {
             getline(leitura, token);
-            if ((linha != *itInt)&&(linha!=*itInt2)) {   
-                escrita << token << endl;
-            }
-            else if (linha==*itInt2) {        //Apenas para apagar a linha do include da biblioteca já registrada
-                if (itInt2 != LinhaIncludeRepetidos.end()) {
-                    ++itInt2;
-                }
-                if (itInt2 == LinhaIncludeRepetidos.end()) {
-                    --itInt2;
-                }
-            }else if (linha == linhasIf[0]) {
+            if (linha == linhasIf[0]) {
                 if ((preIf) && (linhasIf[1] == 0))
                 {
                     for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
@@ -494,7 +495,6 @@ int main() {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                    getline(leitura, token);
                 }
                 else if ((preIf) && (linhasIf[1] != 0)) {
                     for (int i = 0; i < (linhasIf[1] - (linhasIf[0] + 1)); i++)
@@ -502,16 +502,14 @@ int main() {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                    getline(leitura, token);
                     for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
                     {
                         getline(leitura, token);
                     }
-                    getline(leitura, token);
 
                 }
                 else if ((!preIf) && (linhasIf[1] == 0)) {
-                    for (int i = 0; i < (linhasIf[2] - linhasIf[0]); i++)
+                    for (int i = 0; i < (linhasIf[2] - (linhasIf[0]+1)); i++)
                     {
                         getline(leitura, token);
                     }
@@ -521,15 +519,24 @@ int main() {
                     {
                         getline(leitura, token);
                     }
-                    for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
+                    for (int i = 0; i < (linhasIf[2] - (linhasIf[1]+1)); i++)
                     {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                    getline(leitura, token);
+                }
+                getline(leitura, token);
+                linha = linhasIf[2];
+            }
+            else if (linha == *itInt2) {       //Linha da biblioteca repetida
+                if (itInt2 != LinhaIncludeRepetidos.end()) {
+                    ++itInt2;
+                }
+                if (itInt2 == LinhaIncludeRepetidos.end()) {
+                    --itInt2;
                 }
             }
-            else {
+            else if (linha==*itInt) {
                 escrita << *itString << endl;
                 if (itString != TextoIncludes.end()) {
                     ++itInt;
@@ -539,7 +546,9 @@ int main() {
                     --itInt;
                     --itString;
                 }
-
+            }
+            else {
+                escrita << token << endl;
             }
             linha++;
         }
@@ -547,56 +556,58 @@ int main() {
     else {
         leitura.open("fonteMaster.txt", ios::in);
         escrita.open("fonte.txt", ios::out);
-        getline(leitura, token);
-        if (linhasIf == 0) {
-            escrita << token << endl;
-        }
-        linha = 2;
+        linha = 1;
         while (!leitura.eof())
         {
             getline(leitura, token);
             if (linha == linhasIf[0]) {
-            if ((preIf) && (linhasIf[1] == 0))
-            {
-                for (int i = 0; i < (linhasIf[2] - (linhasIf[0]+1)); i++)
+                if ((preIf) && (linhasIf[1] == 0))
                 {
-                    getline(leitura, token);
-                    escrita << token << endl;
+                    for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
+                    {
+                        getline(leitura, token);
+                        escrita << token << endl;
+                    }
                 }
-                getline(leitura, token);
-            }
-            else if ((preIf) && (linhasIf[1] != 0)) {
-                for (int i = 0; i < (linhasIf[1] - (linhasIf[0]+1)); i++)
-                {
-                    getline(leitura, token);
-                    escrita << token << endl;
-                }
-                getline(leitura, token);
-                for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
-                {
-                    getline(leitura, token);
-                }
-                getline(leitura, token);
+                else if ((preIf) && (linhasIf[1] != 0)) {
+                    for (int i = 0; i < (linhasIf[1] - (linhasIf[0] + 1)); i++)
+                    {
+                        getline(leitura, token);
+                        escrita << token << endl;
+                    }
+                    for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
+                    {
+                        getline(leitura, token);
+                    }
 
-            }
-            else if ((!preIf) && (linhasIf[1] == 0)) {
-                for (int i = 0; i < (linhasIf[2] - linhasIf[0]); i++)
-                {
-                    getline(leitura, token);
                 }
-            }
-            else if ((!preIf) && (linhasIf[1] != 0)) {
-                for (int i = 0; i < (linhasIf[1] - linhasIf[0]); i++)
-                {
-                    getline(leitura, token);
+                else if ((!preIf) && (linhasIf[1] == 0)) {
+                    for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
+                    {
+                        getline(leitura, token);
+                    }
                 }
-                for (int i = 0; i < (linhasIf[2] - linhasIf[1]); i++)
-                {
-                    getline(leitura, token);
-                    escrita << token << endl;
+                else if ((!preIf) && (linhasIf[1] != 0)) {
+                    for (int i = 0; i < (linhasIf[1] - linhasIf[0]); i++)
+                    {
+                        getline(leitura, token);
+                    }
+                    for (int i = 0; i < (linhasIf[2] - (linhasIf[1] + 1)); i++)
+                    {
+                        getline(leitura, token);
+                        escrita << token << endl;
+                    }
                 }
                 getline(leitura, token);
+                linha = linhasIf[2];
             }
+            else if (linha == *itInt2) {       //Linha da biblioteca repetida
+                if (itInt2 != LinhaIncludeRepetidos.end()) {
+                    ++itInt2;
+                }
+                if (itInt2 == LinhaIncludeRepetidos.end()) {
+                    --itInt2;
+                }
             }
             else {
                 escrita << token << endl;

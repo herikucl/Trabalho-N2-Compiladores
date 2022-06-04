@@ -1,7 +1,23 @@
+#include <teste.h>
 #define a 5
-#if a<9
-odaisjf
-sadf
-faosdi
-fds 
+#if a>9
+Void FunçãoDoIf(){
+	string fazNada;
+}
+#else
+Void FunçãoDoElse(){
+	string fazNada;
+}
 #endif
+
+#include <teste.h>
+
+int main(){
+	string testeLiteral;
+	char testeChar;
+	int testeNumero;
+
+	testeLiteral = "Isso é um teste";
+	testeChar = 'outro teste';
+	testeNumero = 5;
+}

@@ -1,4 +1,20 @@
-odaisjf
-sadf
-faosdi
-fds 
+void Testando() {
+	int a = 10;
+	int b = 2;
+	int c;
+	c = a / b;
+}
+Void FunçãoDoElse(){
+	string fazNada;
+}
+
+
+int main(){
+	string testeLiteral;
+	char testeChar;
+	int testeNumero;
+
+	testeLiteral = "Isso é um teste";
+	testeChar = 'outro teste';
+	testeNumero = 5;
+}
