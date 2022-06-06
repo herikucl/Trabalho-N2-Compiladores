@@ -3,12 +3,13 @@
  1   |  a
  2   |  b
  3   |  c
- 4   |  Void
- 5   |  Fun
- 6   |  oDoElse
- 7   |  string
- 8   |  fazNada
- 9   |  main
- 10  |  testeLiteral
- 11  |  testeChar
- 12  |  testeNumero
+ 4   |  TestandoPelaSegundaVez
+ 5   |  a2
+ 6   |  b2
+ 7   |  FuncaoDoElse
+ 8   |  string
+ 9   |  fazNada
+ 10  |  main
+ 11  |  testeLiteral
+ 12  |  testeChar
+ 13  |  testeNumero

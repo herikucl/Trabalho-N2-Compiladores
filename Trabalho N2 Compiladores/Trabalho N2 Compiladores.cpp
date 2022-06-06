@@ -5,14 +5,14 @@
 
 using namespace std;
 
-bool VerificarLetra(char c) {
+bool VerificarLetra(char c) { 
     if (((c >= 65) && (c <= 90)) || ((c >= 97) && (c <= 122))) {
         return true;
     }
     else {
         return false;
     }
-}
+}// vai verificar se o char é uma letra e retornar true caso seja
 bool VerificarNumero(char c) {
     if ((c >= 48) && (c <= 57)) {
         return true;
@@ -20,26 +20,26 @@ bool VerificarNumero(char c) {
     else {
         return false;
     }
-}
+}// vai verificar se o char é um numero retornar true caso seja
 void ImprimirToken(string tipo,string token) {
     ofstream escrita;
     escrita.open("saida.txt", ios::app);
     escrita << "[" << tipo << "," << token << "];";
     escrita.close();
-}
+}// depois que um token é formado ele escreve no arquivo de saida um de cada vez
 bool VerificarPalavraReservada(string t) {
     const string palavrasreservadas[] = { "break","char","const","continue","default","do","double","else","float","for","if","int","long","return","void","while" };
     const string PALAVRASRESERVADAS[] = { "BREAK","CHAR","CONST","CONTINUE","DEFAULT","DO","DOUBLE","ELSE","FLOAT","FOR","IF","INT","LONG","RETURN","VOID","WHILE" };
     for (int i = 0; i < 16; i++)
     {
-        if ((t==palavrasreservadas[i])||(t==PALAVRASRESERVADAS[i]))
+        if ((t == palavrasreservadas[i]) || (t == PALAVRASRESERVADAS[i]))
         {
             return true;
             break;
         }
     }
     return false;
-}
+}// vai verificar se a string é uma palavra reservada e retornar true caso seja
 bool VerificarOperador(char c) {
     const char op[] = { '+','-','*', '/','=','&','!','|','>','<','%'};
     for (int i = 0; i < 11; i++)
@@ -51,8 +51,8 @@ bool VerificarOperador(char c) {
         }
     }
     return false;
-}
-bool VerificarOperador(string c) {
+}// vai verificar se o char é um operador (dos selecionados) e retornar true caso seja
+bool VerificarOperador(string c) {  
     const string op[] = { "+" ," - ","*", "/","=","&","!","|",">","<","%"};
     for (int i = 0; i < 11; i++)
     {
@@ -63,8 +63,8 @@ bool VerificarOperador(string c) {
         }
     }
     return false;
-}
-bool VerificarOperadorRelacional(string r) {
+}// mesma coisa da função acima só que recebendo string
+bool VerificarOperadorRelacional(string r) { 
     const string rel[] = { "==","+=","-=","!=","/=",">=","<=","++","--","||","&&"};
     for (int i = 0; i < 11; i++)
     {
@@ -75,7 +75,7 @@ bool VerificarOperadorRelacional(string r) {
         }
     }
     return false;
-}
+}// vai verificar se a string é um operador relacional dos selecionados e retornar true caso seja
 bool VerificarOutrosCaracteres(char c) {
     const char id[] = {'(',')','{','}',';',',','[',']'};
     for (int i = 0; i < 8; i++)
@@ -87,7 +87,7 @@ bool VerificarOutrosCaracteres(char c) {
         }
     }
     return false;
-}
+}// vai verificar se o char é um dos selecionados que não entram nas outras categorias e retornar true caso seja
 int numeroLista(string ab, list <string> &aa) {
     int c = 0;
     bool possui=false;
@@ -107,7 +107,7 @@ int numeroLista(string ab, list <string> &aa) {
         aa.push_back(ab);
     }
     return c;
-}
+}// vai atribuir um numero para um identificar caso não esteja na lista e caso o identificador já esteja retorna o numero atribuido anteriormente
 int VerificarComando(string t) {
     if (t == "include") {
         return 2;
@@ -123,11 +123,12 @@ int VerificarComando(string t) {
     else if (t == "define") {
         return 7;
     }
-}
+}// vai analisar a string para ir para o case correto
 bool VerificarLogica(string t,string id[], int v[]) {
     string id1, id2,op,aux;
     id1 = id2 = op = aux = "";
     int n1, n2;
+    n1 = n2 = 0;
     bool primeiroid=false;
     int estado = 1;
     for (int i = 0; i < t.length(); i++)
@@ -265,7 +266,8 @@ bool VerificarLogica(string t,string id[], int v[]) {
         }
     }
     return false;
-}
+}//verifica se o #if é true ou false e retorna isto 
+
 
 
 int main() {
@@ -280,10 +282,11 @@ int main() {
     token = "";
     bool auth = false;
     list <string> identificadores;
+    list <string> ::iterator it;
     bool erro, verificador;
     erro = verificador = true;
     list <int> LinhaInclude;
-    list <int> LinhaIncludeRepetidos;
+    list <int> LinhaIgnorar;
     list <string> Includes;
     list <string> TextoIncludes;
     list <string> ::iterator itString;
@@ -291,7 +294,7 @@ int main() {
     list <int> ::iterator itInt2;
     string id[2];
     int valor[2];
-    int linhasIf[3] = { 0,0,0 };
+    int linhasIf[3] = { 0,0,0 }; //linhas do if else endif sucessivamente
     bool preIf=true;
     //Pre compilador
     leitura.open("fonteMaster.txt", ios::in);
@@ -302,19 +305,20 @@ int main() {
             for (itString = Includes.begin(); itString != Includes.end(); ++itString)
             {
                 if (token == *itString) {
-                    verificador = true;
+                    verificador = true; // biblioteca já está na lista
                     break;
                 }
                 else {
-                    verificador = false;
+                    verificador = false; // biblioteca não está na lista
                 }
-            }
+            }// analisa se o token (nome da biblioteca) está na lista dos includes
+
             if (!verificador) {
-                Includes.push_back(token);
-                LinhaInclude.push_back(linha);
+                Includes.push_back(token);      // inclue o nome da biblioteca na lista
+                LinhaInclude.push_back(linha);  // inclue em qual linha está o include
             }
             else {
-                    LinhaIncludeRepetidos.push_back(linha);
+                LinhaIgnorar.push_back(linha); //linha a linha que está o include repetido para ignorar depois
             }
 
         }
@@ -330,11 +334,11 @@ int main() {
             if (aux == '#') {
                 estado = 1;
                 break;
-            }
+            }//achou um # agora vai para o switch que analisará qual comando é
             else if (aux == '\n') {
                 linha++;  
-            }  
-        }
+            }// sempre que le o \n sabe-se que vai pular pra proxima linha
+        }// while que busca comandos do precompilador (começam com #)
         if (!leitura.eof()) {
             while (verificador) {
                 if (auth == false) {
@@ -352,10 +356,6 @@ int main() {
                     break;
                 }
                 switch (estado) {
-                case 0:
-                    cout << "erro";
-                    verificador = false;
-                    break;
 
                 case 1:
                     while (VerificarLetra(aux))
@@ -365,27 +365,24 @@ int main() {
                         if (leitura.eof()) {
                             aux =' ';
                         }
-                    }
-                    estado = VerificarComando(token);
-                    if (VerificarComando(token)==5)
-                    {
+                    }// vai lendo as letras após o # e concatena elas na variavel token
+                    estado = VerificarComando(token); //verifica que palavra é e direciona para o case correto
+                    if (VerificarComando(token)==5){
                         linhasIf[1] = linha;
-                    }
+                    }//seta a linha atual como a linha do else
                     else if (VerificarComando(token) == 6) {
                         linhasIf[2] = linha;
-                    }
+                    }//seta a linha atual como a linha do endif
                     if (aux == '\n') {
                         linha++;
                     }
-
-
                     token = "";
                     break;
 
-                case 2:
+                case 2: // case do include
                     if (aux != ' ') {
                         if ((aux == '<') || (aux == '"')) {
-                            estado = 3;
+                            estado = 3; 
                         }
                         else {
                             estado = 0;
@@ -393,7 +390,7 @@ int main() {
                     }
                     break;
 
-                case 3:
+                case 3:// concatenando o nome da biblioteca até receber o caracter que finaliza " ou >
                     if ((aux == '>') || (aux == '"')) {
                         verificador = false;
                     }
@@ -402,60 +399,57 @@ int main() {
                     }
                     break;
 
-                case 4:
+                case 4:// case do if
                     if ((aux != '\n')&&(aux!=' ')) {
-                        token = token + aux;
+                        token = token + aux; // concatena a expressão logica do if
                     }
-                    else {
-                        linhasIf[0] = linha;
+                    else { // finalizou o if
+                        linhasIf[0] = linha; // seta a linha atual como a linha do if
                         erro = true;
                         auth = false;
-                        if (VerificarLogica(token, id, valor)) {
-                            preIf = true;
-                        }
-                        else {
-                            preIf = false;
-                        }
+                        preIf = VerificarLogica(token, id, valor); // seta se o if é true ou false
                     }
                     break;
 
-                case 5:
+                case 5: //case do else
                     erro = true;
                     auth = false;
                     break;
 
 
-                case 6:
+                case 6: //case do endif
                     erro = true;
                     auth = false;
                     break;
+                
+                //ambos os cases acima são apenas para fugir do while
 
-                case 7:
+                case 7: //case do define (definição da variavel)
                     if (VerificarLetra(aux)) {
                         token = token + aux;
                     }
-                    else if ((token!="")&&(VerificarNumero(aux))){
+                    else if ((token!="")&&(VerificarNumero(aux))){ //apenas aceita numero apos ter pelo menos uma letra
                         token = token + aux;
                     }
-                    else if (aux == ' '){
+                    else if (aux == ' '){ //finalizou o nome da varivel 
                         id[c] = token;
-                        estado = 8;
+                        estado = 8; 
                         token = "";
                     }
                     break;
 
-                case 8:
+                case 8://case do define (numero atribuido)
                     if (VerificarNumero(aux)) {
-                        token = token + aux;
+                        token = token + aux;//concatena os numeros
                     }
                     else if((aux==' ')||(aux=='\n')) {
-                        valor[c] = stoi(token);
+                        valor[c] = stoi(token); // transforma o valor dos numero em inteiro
                         c = c + 1;
                         estado = 1;
                         token = "";
                         auth = false;
                         erro = true;
-                        LinhaIncludeRepetidos.push_back(linha);
+                        LinhaIgnorar.push_back(linha); //salva o define na lista de linhas a ignorar
                     }
                     break;
                 }
@@ -463,10 +457,10 @@ int main() {
         }
     }
     leitura.close();
-    if (LinhaIncludeRepetidos.empty()) {
-        LinhaIncludeRepetidos.push_back(0);
-    }
-    itInt2 = LinhaIncludeRepetidos.begin();
+    if (LinhaIgnorar.empty()) {
+        LinhaIgnorar.push_back(0);
+    }//corrigir problema de ponteiro flutuante
+    itInt2 = LinhaIgnorar.begin();
     if (!Includes.empty()) {
         for (itString = Includes.begin(); itString != Includes.end(); ++itString)
         {
@@ -476,8 +470,8 @@ int main() {
             while (!leitura.eof()) {
                 textoBib += aux;
                 leitura.get(aux);
-            }
-            TextoIncludes.push_back(textoBib);
+            }//pega todo o texto da biblioteca e salva na variavel textoBib
+            TextoIncludes.push_back(textoBib);//talva o texto da variavel na lista
             leitura.close();
         }
         itInt = LinhaInclude.begin();
@@ -487,7 +481,7 @@ int main() {
         linha = 1;
         while (!leitura.eof()) {
             getline(leitura, token);
-            if (linha == linhasIf[0]) {
+            if (linha == linhasIf[0]) { //linha do if
                 if ((preIf) && (linhasIf[1] == 0))
                 {
                     for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
@@ -495,7 +489,7 @@ int main() {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                }
+                }//if true e não tem else
                 else if ((preIf) && (linhasIf[1] != 0)) {
                     for (int i = 0; i < (linhasIf[1] - (linhasIf[0] + 1)); i++)
                     {
@@ -507,13 +501,13 @@ int main() {
                         getline(leitura, token);
                     }
 
-                }
+                }//if true e tem else
                 else if ((!preIf) && (linhasIf[1] == 0)) {
                     for (int i = 0; i < (linhasIf[2] - (linhasIf[0]+1)); i++)
                     {
                         getline(leitura, token);
                     }
-                }
+                }//if false e não tem else
                 else if ((!preIf) && (linhasIf[1] != 0)) {
                     for (int i = 0; i < (linhasIf[1] - linhasIf[0]); i++)
                     {
@@ -524,19 +518,20 @@ int main() {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                }
+                }//if false e tem else
                 getline(leitura, token);
                 linha = linhasIf[2];
             }
-            else if (linha == *itInt2) {       //Linha da biblioteca repetida
-                if (itInt2 != LinhaIncludeRepetidos.end()) {
+
+            else if (linha == *itInt2) {       //Linha que tem que ignorar
+                if (itInt2 != LinhaIgnorar.end()) {
                     ++itInt2;
                 }
-                if (itInt2 == LinhaIncludeRepetidos.end()) {
+                if (itInt2 == LinhaIgnorar.end()) {
                     --itInt2;
                 }
             }
-            else if (linha==*itInt) {
+            else if (linha==*itInt) { // linha da biblioteca que tem que colar
                 escrita << *itString << endl;
                 if (itString != TextoIncludes.end()) {
                     ++itInt;
@@ -547,7 +542,7 @@ int main() {
                     --itString;
                 }
             }
-            else {
+            else { //caso não seja linha de comando ele apenas reescreve
                 escrita << token << endl;
             }
             linha++;
@@ -560,7 +555,7 @@ int main() {
         while (!leitura.eof())
         {
             getline(leitura, token);
-            if (linha == linhasIf[0]) {
+            if (linha == linhasIf[0]) { //linha do if
                 if ((preIf) && (linhasIf[1] == 0))
                 {
                     for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
@@ -568,7 +563,7 @@ int main() {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                }
+                }//if true e não tem else
                 else if ((preIf) && (linhasIf[1] != 0)) {
                     for (int i = 0; i < (linhasIf[1] - (linhasIf[0] + 1)); i++)
                     {
@@ -580,13 +575,13 @@ int main() {
                         getline(leitura, token);
                     }
 
-                }
+                }//if true e tem else
                 else if ((!preIf) && (linhasIf[1] == 0)) {
                     for (int i = 0; i < (linhasIf[2] - (linhasIf[0] + 1)); i++)
                     {
                         getline(leitura, token);
                     }
-                }
+                }//if false e não tem else
                 else if ((!preIf) && (linhasIf[1] != 0)) {
                     for (int i = 0; i < (linhasIf[1] - linhasIf[0]); i++)
                     {
@@ -597,19 +592,19 @@ int main() {
                         getline(leitura, token);
                         escrita << token << endl;
                     }
-                }
+                }//if false e tem else
                 getline(leitura, token);
                 linha = linhasIf[2];
             }
-            else if (linha == *itInt2) {       //Linha da biblioteca repetida
-                if (itInt2 != LinhaIncludeRepetidos.end()) {
+            else if (linha == *itInt2) {        //linha que tem que ignorar
+                if (itInt2 != LinhaIgnorar.end()) {
                     ++itInt2;
                 }
-                if (itInt2 == LinhaIncludeRepetidos.end()) {
+                if (itInt2 == LinhaIgnorar.end()) {
                     --itInt2;
                 }
             }
-            else {
+            else {  //caso não seja linha de comando ele apenas reescreve
                 escrita << token << endl;
             }
             linha++;
@@ -642,7 +637,7 @@ int main() {
             if (aux == ' ') {
                 estado = 1;
             }
-            else if (VerificarLetra(aux)) { // Estado que fará a verificação se é um identificador ou palavra reservada
+            else if (VerificarLetra(aux)) { // Estado que fará a verificação se é uma palavra reservada
                 estado = 2;
                 token = token + aux;
             }
@@ -727,11 +722,11 @@ int main() {
             }
                 break;
         case  6:
-            if ((token == "/")&&(aux=='/')) {   // É um comentário com "//"
+            if ((token == "/")&&(aux=='/')) {   // É um comentário de linha "//"
                 estado = 7;
                 token = "";
             }
-            else if ((token == "/") && (aux == '*')) {  // É um comentário com "/*"
+            else if ((token == "/") && (aux == '*')) {  // É um comentário de bloco "/*"
                 estado = 8;
                 token = "";
             }
@@ -780,13 +775,13 @@ int main() {
         }
         leitura.close();
 
-        list <string> ::iterator it;
         escrita.open("tabelaSimbolos.txt", ios::out);
         c = 0;
         escrita <<" ID  |  NOME" <<endl;
-        for (it = identificadores.begin(); it !=identificadores.end(); ++it)
+        for (it = identificadores.begin(); it !=identificadores.end(); ++it) //imprimindo todos identificadores em uma tabela
         {
-            if ((c >= 0) && (c <= 9)){                              //Formatação dos espaços para que a tabela fique alinhada
+            //Formatação dos espaços para que a tabela fique alinhada
+            if ((c >= 0) && (c <= 9)){                              
                 escrita << " " << c << "   |  " << *it << endl;
             }else if ((c >= 10) && (c <= 99)) {
                 escrita << " " << c << "  |  " << *it << endl;

@@ -1,11 +1,13 @@
 #include <teste.h>
+#include "teste2.h"
+
 #define a 5
 #if a>9
-Void FunçãoDoIf(){
+void FuncaoDoIf(){
 	string fazNada;
 }
 #else
-Void FunçãoDoElse(){
+void FuncaoDoElse(){
 	string fazNada;
 }
 #endif

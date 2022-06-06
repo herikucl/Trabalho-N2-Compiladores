@@ -4,7 +4,13 @@ void Testando() {
 	int c;
 	c = a / b;
 }
-Void FunçãoDoElse(){
+void TestandoPelaSegundaVez() {
+	int a2;
+	int b2;
+	int c = a2 / b2;
+}
+
+void FuncaoDoElse(){
 	string fazNada;
 }
 
