@@ -1,15 +1,3 @@
  ID  |  NOME
- 0   |  Testando
- 1   |  a
- 2   |  b
- 3   |  c
- 4   |  TestandoPelaSegundaVez
- 5   |  a2
- 6   |  b2
- 7   |  FuncaoDoElse
- 8   |  string
- 9   |  fazNada
- 10  |  main
- 11  |  testeLiteral
- 12  |  testeChar
- 13  |  testeNumero
+ 0   |  a
+ 1   |  dofisjpgiosd

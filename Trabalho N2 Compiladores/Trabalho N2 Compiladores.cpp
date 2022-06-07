@@ -634,7 +634,7 @@ int main() {
         switch (estado)
         {
         case 1:
-            if (aux == ' ') {
+            if ((aux >= 0)&&(aux<=32)) { //simbolos de escape
                 estado = 1;
             }
             else if (VerificarLetra(aux)) { // Estado que fará a verificação se é uma palavra reservada
@@ -659,6 +659,11 @@ int main() {
             {
                 token = token + aux;
                 ImprimirToken(token, "");
+                token = "";
+            }
+            else {
+                token += aux;
+                ImprimirToken("erro", token);
                 token = "";
             }
 

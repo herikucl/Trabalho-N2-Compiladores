@@ -1,26 +1,4 @@
-void Testando() {
-	int a = 10;
-	int b = 2;
-	int c;
-	c = a / b;
-}
-void TestandoPelaSegundaVez() {
-	int a2;
-	int b2;
-	int c = a2 / b2;
-}
+int a;
+#
+dofisjpgiosd
 
-void FuncaoDoElse(){
-	string fazNada;
-}
-
-
-int main(){
-	string testeLiteral;
-	char testeChar;
-	int testeNumero;
-
-	testeLiteral = "Isso é um teste";
-	testeChar = 'outro teste';
-	testeNumero = 5;
-}
