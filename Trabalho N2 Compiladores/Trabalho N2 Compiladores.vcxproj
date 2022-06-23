@@ -143,8 +143,14 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fonte.txt" />
+    <Text Include="fonteMaster.txt" />
     <Text Include="saida.txt" />
     <Text Include="tabelaSimbolos.txt" />
+    <Text Include="temp.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="teste2.h" />
+    <ClInclude Include="teste.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
