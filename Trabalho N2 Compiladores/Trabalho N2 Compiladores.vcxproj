@@ -146,7 +146,6 @@
     <Text Include="fonteMaster.txt" />
     <Text Include="saida.txt" />
     <Text Include="tabelaSimbolos.txt" />
-    <Text Include="temp.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="teste2.h" />

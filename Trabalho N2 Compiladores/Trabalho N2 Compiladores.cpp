@@ -5,6 +5,15 @@
 
 using namespace std;
 
+// Arquivos utilizados e suas funções
+// fonteMaster.txt   - Arquivo de entrada dos dados (codigo fonte)
+// fonte.txt - Arquivo de entrada após ser tratado pelo pré-compilador 
+// saida.txt - Arquivo de saida com os tokens 
+// tabelaSimbolos - Arquivo com toda a tabela de simbolos gerada
+// teste.h   - Biblioteca exemplo
+// teste2.h  - Biblioteca exemplo
+
+
 bool VerificarLetra(char c) { 
     if (((c >= 65) && (c <= 90)) || ((c >= 97) && (c <= 122))) {
         return true;
